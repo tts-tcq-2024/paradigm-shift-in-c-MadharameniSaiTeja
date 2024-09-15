@@ -20,8 +20,8 @@ bool ChargeRateIsOk(float chargeRate){
     return true;//chargerate is OK 
 }
 int batteryIsOk(float temperature, float soc, float chargeRate) {
-  int paramaeters_NotOK = (!TemperatureIsOk(temperature) || !SOCIsOk(soc) || !ChargeRateIsOk(chargeRate));
-  if(paramaeters_NotOK){
+  int paramaeters_OK = (!TemperatureIsOk(temperature) || !SOCIsOk(soc) || !ChargeRateIsOk(chargeRate));
+  if(paramaeters_OK){
     return false;
   }
   return true;
