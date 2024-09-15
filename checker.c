@@ -1,15 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdbool.h>
-
-bool TemperatureIsOk(float);
-bool SOCIsOk(float);
-bool ChargeRateIsOk(float);
-
-int batteryIsOk(float temperature, float soc, float chargeRate) {
-
-  return TemperatureIsOk(temperature) && SOCIsOk(soc) && ChargeRateIsOk(chargeRate);
-}
 bool TemperatureIsOk(float temperature){
     if(temperature < 0 || temperature > 45){
     return false;//Temperature is NOT OK
@@ -28,6 +19,15 @@ bool ChargeRateIsOk(float chargeRate){
     }
     return true;//chargerate is OK 
 }
+int batteryIsOk(float temperature, float soc, float chargeRate) {
+  int paramaeters_NotOK = (!TemperatureIsOk(temperature) || !SOCIsOk(soc) || !ChargeRateIsOk(chargeRate));
+  if(paramaeters_NotOK){
+    return false;
+  }
+  return true;
+  
+}
+
 int main() {
   assert(batteryIsOk(25, 70, 0.7));//battery is OK
   assert(!batteryIsOk(50, 85, 0.5));//battery is NOT OK
