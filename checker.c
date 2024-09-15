@@ -1,41 +1,41 @@
 #include <stdio.h>
 #include <assert.h>
-#include <stdbool.h>
 
-bool TemperatureIsOk(float);
-bool SOCIsOk(float);
-bool ChargeRateIsOk(float);
-
+int isTemperatureOk(float temperature) {
+    if(temperature < 0 || temperature > 45)
+    {
+        printf("Temperature out of range!\n");
+        return 0;
+    }
+    return 1;
+}
+ 
+int isSocOk(float soc) {
+    if(soc < 20 || soc > 80)
+    {
+        printf("State of Charge out of range!\n");
+      return 0;
+    }
+    return 1;
+}
+ 
+int isChargeRateOk(float chargeRate) {
+    if(chargeRate > 0.8)
+    {
+         printf("Charge Rate out of range!\n");
+         return 0;
+    }
+    return 1;
+}
+ 
 int batteryIsOk(float temperature, float soc, float chargeRate) {
-
-  return TemperatureIsOk(temperature) && SOCIsOk(soc) && ChargeRateIsOk(chargeRate);
-}
-bool TemperatureIsOk(float temperature){
-    if(temperature < 0 || temperature > 45){
-    return false;//Temperature is NOT OK
-    }
-    return true;//Temperature is OK
-}
-bool SOCIsOk(float soc){
-    if(soc < 20 || soc > 80){
-    return false;//SOC is NOT OK 
-    }
-    return true;//SOC is OK 
-}
-bool ChargeRateIsOk(float chargeRate){
-    if(chargeRate > 0.8){
-    return false;//ChargeRate is NOT OK
-    }
-    return true;//chargerate is OK 
+    return isTemperatureOk(temperature) && isSocOk(soc) && isChargeRateOk(chargeRate);
 }
 int main() {
-  assert(batteryIsOk(25, 70, 0.7));//battery is OK
-  assert(!batteryIsOk(50, 85, 0.5));//battery is NOT OK
-  assert(!batteryIsOk(70, 85, 0.5));//Temperature is too High
-  assert(!batteryIsOk(-10, 85, 0.5));//Temperature is too Low
-  assert(!batteryIsOk(40, 90, 0.5));//SOC is too High
-  assert(!batteryIsOk(40, 5, 0.5));//SOC is too Low
-  assert(!batteryIsOk(40, 85, 2));//Chargerate is too high
-
-  
+    assert(batteryIsOk(25, 70, 0.7));//no print
+    assert(!batteryIsOk(55, 50, 0.2));//temp out of range
+    assert(!batteryIsOk(-1, 75, 0.0));//temp out of range
+    assert(!batteryIsOk(20, 90, 0.2));//Soc Out of range
+    assert(!batteryIsOk(20, 15, 0.2));//Soc Out of range
+    assert(!batteryIsOk(25, 25, 0.8));//charge out of range
 }
