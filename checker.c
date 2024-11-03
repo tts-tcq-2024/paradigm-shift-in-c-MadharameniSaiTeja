@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdbool.h>
+#include <stdbool>
 #include <assert.h>
 #include <string.h>
 
@@ -16,18 +16,13 @@ const char* getStatus(const char* parameter, float value, float minimumRange, fl
     return message;
 }
 
-// Function to check if a single status message is out of range
-bool isStatusOutOfRange(const char* statusMessage) {
-    return !strstr(statusMessage, "within range");
-}
-
 // Function to check if the battery parameters are within range
 bool batteryIsOk(float temperature, float soc, float chargeRate) {
     const char* tempStatus = getStatus("Temperature", temperature, 0, 45, " is too low!", " is too high!");
     const char* socStatus = getStatus("State of Charge", soc, 20, 80, " is too low!", " is too high!");
     const char* chargeRateStatus = getStatus("Charge Rate", chargeRate, 0, 0.8f, "", " is too high!");
 
-    return !isStatusOutOfRange(tempStatus) && !isStatusOutOfRange(socStatus) && !isStatusOutOfRange(chargeRateStatus);
+    return strstr(tempStatus, "within range") && strstr(socStatus, "within range") && strstr(chargeRateStatus, "within range");
 }
 
 // Main function with assertions to test the batteryIsOk function
